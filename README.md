@@ -1,0 +1,2 @@
+#bc-chaincode
+Test chaincode
