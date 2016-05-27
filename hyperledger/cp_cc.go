@@ -39,7 +39,14 @@ var recentLeapYear = 2016
 type SimpleChaincode struct {
 }
 
-func generateCUSIPSuffix(issueDate string, days int) (string, error) {
+func generateCUSIPSuffix(issueDate string, symbol string) (string, error) {
+
+	contractId := issueDate + symbol
+	return contractId, nil
+
+}
+
+func generateCUSIPSuffix_bak(issueDate string, days int) (string, error) {
 
 	t, err := msToTime(issueDate)
 	if err != nil {
@@ -287,7 +294,7 @@ func (t *SimpleChaincode) issueCommercialPaper(stub *shim.ChaincodeStub, args []
 	
 	cp.Owners = append(cp.Owners, owner)
 
-	suffix, err := generateCUSIPSuffix(cp.IssueDate, 15)
+	suffix, err := generateCUSIPSuffix(cp.IssueDate, cp.Symbol)
 	if err != nil {
 		fmt.Println("Error generating cusip")
 		return nil, errors.New("Error generating CUSIP")
@@ -479,7 +486,7 @@ func (t *SimpleChaincode) transferPaper(stub *shim.ChaincodeStub, args []string)
 			  "CUSIP": "",
 			  "fromCompany":"",
 			  "toCompany":"",
-			  "quantity": 1
+			  "quantity": ""
 		}
 	*/
 	//need one arg
